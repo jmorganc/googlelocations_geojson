@@ -4,41 +4,6 @@ import json
 import sys
 from collections import defaultdict
 
-"""
-{
-    "type":"FeatureCollection",
-    "features":[
-        {
-            "type":"Feature",
-            "geometry":{
-                "type":"LineString",
-                "coordinates":[
-                    [-96.7459,32.95282,191],
-                    [-96.74588,32.952847,182],
-                    [-96.7447,32.952896,192]
-                ]
-             },
-             "properties":{
-                 "name":"Track",
-                 "styleUrl":"#style_204",
-                 "styleHash":-1702365,
-	 "description":"<p>
-                     Start: May 5, 2014 4:41:42 PM 
-                     End: May 5, 2014 5:10:52 PM 
-                     Duration: 29'10\" 
-                     Elements: 852 
-                     Length: 3.03mi 
-                     Avg Speed: 6.24mph 
-                     Max Speed: 7.83mph 
-                     Low: 551ft 
-                     High: 673ft 
-                     Gain: 1936ft
-                 </p>"
-             }
-        }
-    ]
-}
-"""
 
 def main():
     geojson = defaultdict(tuple)
@@ -59,7 +24,7 @@ def main():
                     output_file.write('[{lon},{lat}]\n'.format(lon=geojson[timestamp][0], lat=geojson[timestamp][1]))
                 else:
                     output_file.write('[{lon},{lat}],\n\t\t\t\t\t'.format(lon=geojson[timestamp][0], lat=geojson[timestamp][1]))
-                del geojson[timestamp]
+                #del geojson[timestamp]
             output_file.write('\t\t\t\t]\n\t\t\t},\n\t\t\t"properties":{\n\t\t\t\t"name":"Track"\n\t\t\t}\n\t\t}\n\t]\n}')
 
 
@@ -69,14 +34,15 @@ def convert_lonlat(lon, lat):
     new_lon = lon
     new_lat = lat
     
-    if length_lon < 9:
-        for i in range(0, 9%length_lon):
-            new_lon = new_lon * 10
-    if length_lat < 9:
-        for i in range(0, 9%length_lat):
-            new_lat = new_lat * 10
+    #if length_lon < 9:
+    #    for i in range(0, 9%length_lon):
+    #        new_lon = new_lon * 10
+    #if length_lat < 9:
+    #    for i in range(0, 9%length_lat):
+    #        new_lat = new_lat * 10
 
     return (new_lon*10**-7, new_lat*10**-7)
+    #return (new_lon / 10000000, new_lat / 10000000)
 
 
 def count_sizes(lon, lat):
